@@ -151,7 +151,7 @@ def summarize_long_pdf(pdf_path: str, template_content: str) -> str:
         # 尝试使用 "stuff" 方法
         print("  [*] Attempting fast summarization with 'stuff' method...")
 
-        prompt_template = f"你是一名顶尖的AI研究助理，你十分熟悉自然语言处理和大模型。请仔细阅读以下整篇论文，并严格按照下面的Markdown模板格式，模型方法部分要详细介绍（结合公式），生成一份完整的、连贯的最终总结。如果信息不足，请填写 \"N/A\"。\n---\n[论文全文开始]\n{{text}}\n[论文全文结束]\n---\n[Markdown模板开始]\n{template_content}\n[Markdown模板结束]\n---\n请现在开始填充最终的Markdown模板，直接输出填充后的内容："
+        prompt_template = f"你是一名顶尖的AI研究助理，你十分熟悉自然语言处理和大模型。请仔细阅读以下整篇论文，并严格按照下面的Markdown模板格式，在‘方法’部分，请详细描述模型结构和算法流程。对于需要精确排版的数学公式，请务必使用$...$或$$...$$的LaTeX格式。对于描述算法步骤的伪代码或函数调用，请直接写出或使用反引号 `...` 来高亮，生成一份完整的、连贯的最终总结。如果信息不足，请填写 \"N/A\"。\n---\n[论文全文开始]\n{{text}}\n[论文全文结束]\n---\n[Markdown模板开始]\n{template_content}\n[Markdown模板结束]\n---\n请现在开始填充最终的Markdown模板，直接输出填充后的内容："
         prompt = ChatPromptTemplate.from_template(prompt_template)
 
         chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt)
