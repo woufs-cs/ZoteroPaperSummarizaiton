@@ -1,4 +1,4 @@
-# ZoteroPaperSummarizaiton
+# ZoteroPaperSummarizaiton（Zotero自动文献总结）
 该项目是一个agent相关的项目，通过LLM和zotero的api，可以实现ai生成文献总结，并自动附在zotero对应的条目下
 Installation steps
 ## Step1
