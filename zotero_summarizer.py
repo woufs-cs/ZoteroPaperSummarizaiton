@@ -263,9 +263,25 @@ def main():
             print(f"  [*] Downloading PDF (key: {pdf_key})...")
             # 修正：zot.dump 的 data_dir 参数已弃用，直接提供完整路径即可
             zot.dump(pdf_key, temp_pdf_path)
+            # ... (之前的代码) ...
+            pdf_key = pdf_attachment['key']
+            temp_original_pdf_path = os.path.join(TEMP_PDF_DIR, f"{pdf_key}.pdf")
 
-            authors = data.get('creators', [])
+            print(f"  [DEBUG] Attempting to download PDF with key: {pdf_key}")
+            print(f"  [DEBUG] Target path: {temp_original_pdf_path}")
+
+            try:
+                print(f"  [*] Downloading original PDF (key: {pdf_key})...")
+                zot.dump(pdf_key, temp_original_pdf_path)
+                print(f"  [DEBUG] PDF download successful for key: {pdf_key}")  # 如果成功会打印
+                # ... (后续代码) ...
+            except Exception as e:
+                print(f"  [!] An error occurred while processing '{display_name}': {e}")
+                import traceback
+                traceback.print_exc()  # 打印完整的堆栈跟踪，这会提供更多细节
+
             # 修正：修复了 a.g'et 的语法错误
+            authors = data.get('creators', [])
             author_str = ' and '.join([f"{a.get('firstName', '')} {a.get('lastName', '')}".strip() for a in authors])
 
             populated_template = base_template_str.replace("{{TITLE}}", data.get('title', 'No Title'))
@@ -293,8 +309,8 @@ def main():
                 print("  [*] Cleaned up temporary PDF file.")
 
         if len(items_to_process) > 1:
-            print("  [*] Waiting for 20 seconds before next item to avoid rate limits...")
-            time.sleep(20)
+            print("  [*] Waiting for 5 seconds before next item to avoid rate limits...")
+            time.sleep(5)
 
     print("\n--- All selected items have been processed. Script finished. ---")
 
