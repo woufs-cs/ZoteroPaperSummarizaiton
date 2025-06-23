@@ -493,7 +493,7 @@ def main():
 
             if len(items_to_process) > 1 and item != items_to_process[-1]:
                 print("  [*] Waiting 5 seconds before next item...")
-                time.sleep(5)
+                time.sleep(3)
 
     finally:
         if db_con:
@@ -504,3 +504,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
